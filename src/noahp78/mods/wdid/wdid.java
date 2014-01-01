@@ -2,17 +2,19 @@ package noahp78.mods.wdid;
 
 import java.util.EnumSet;
 import java.util.Hashtable;
+import java.util.logging.Level;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.common.MinecraftForge;
+import noahp78.mods.noahsmod.helpers.LogHelper;
 import noahp78.mods.wdid.client.GameOverlay;
-import noahp78.mods.wdid.client.GuiBuffBar;
 
 import org.lwjgl.input.Keyboard;
 
 import cpw.mods.fml.client.registry.KeyBindingRegistry;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -71,6 +73,26 @@ public class wdid {
 	    //@PostInit   // used in 1.5.2
 	    public void postInit(FMLPostInitializationEvent event) {
 	            // Stub Method
+	    	System.out.println("Enabling Mods!");
+	    	
+	    	//IC2 Init
+	        if (Loader.isModLoaded("IC2")) {
+	            try {
+	                       //do stuff
+	            	noahp78.mods.wdid.modhelpers.IC2.InitIC2();
+
+	                System.out.println("[wdid] found IC2 = ModInfo Loading");
+	            }
+	            catch (Exception e) {
+	                System.out.println( "[wdid] IC2 Module cant be loaded");
+	                e.printStackTrace(System.err);
+	            }
+	        }
+	        if (!(Loader.isModLoaded("IC2"))){
+	        	System.out.println("[wdid] IC2 is not found, not loading IC2 compability");
+	        	
+	        }
+	        
 	    	//MinecraftForge.EVENT_BUS.register(new GuiBuffBar(Minecraft.getMinecraft()));
 	    	MinecraftForge.EVENT_BUS.register(new GameOverlay(Minecraft.getMinecraft()));
 	    }
